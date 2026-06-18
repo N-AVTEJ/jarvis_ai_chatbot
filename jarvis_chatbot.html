@@ -3,52 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JARVIS AI Assistant</title>
+    <title>J.A.R.V.I.S – Intelligent AI Assistant</title>
+    <meta name="description" content="JARVIS – Just A Rather Very Intelligent System. Your advanced AI assistant powered by Gemini.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>J.A.R.V.I.S</h1>
-            <p>Just A Rather Very Intelligent System</p>
-        </div>
-        
-        <div class="chat-container" id="chatContainer">
-            <div class="welcome-message">
-                <h2>Welcome to JARVIS</h2>
-                <p>Your intelligent AI assistant is ready to help. You can type messages, upload images, or use voice input.</p>
-            </div>
-        </div>
-        
-        <div class="typing-indicator" id="typingIndicator">
-            <div class="message-content">
-                <div class="typing-dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+
+    <!-- Animated particle canvas background -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Scanning line overlay -->
+    <div class="scan-line"></div>
+
+    <!-- Corner decorations -->
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+
+    <div class="app-container">
+
+        <!-- ── HEADER ── -->
+        <header class="header" id="header">
+            <div class="header-left">
+                <div class="status-indicator" id="statusIndicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text" id="statusText">ONLINE</span>
                 </div>
             </div>
-        </div>
-        
-        <div class="input-container">
-            <div class="input-wrapper">
-                <input type="text" class="message-input" id="messageInput" placeholder="Ask JARVIS anything..." autocomplete="off">
-                <div class="control-buttons">
-                    <button class="control-btn" id="imageBtn" title="Upload Image">
-                        📷
-                    </button>
-                    <button class="control-btn" id="voiceBtn" title="Voice Input">
-                        🎤
-                    </button>
-                    <button class="control-btn" id="sendBtn" title="Send Message">
-                        ➤
-                    </button>
+
+            <div class="header-center">
+                <div class="logo-ring">
+                    <svg class="ring-svg" viewBox="0 0 120 120">
+                        <circle class="ring-bg" cx="60" cy="60" r="52"/>
+                        <circle class="ring-progress" cx="60" cy="60" r="52" id="ringProgress"/>
+                    </svg>
+                    <div class="logo-core">
+                        <span class="logo-icon">⬡</span>
+                    </div>
                 </div>
-                <input type="file" class="file-input" id="fileInput" accept="image/*">
+                <div class="logo-text">
+                    <h1 class="title-main">J.A.R.V.I.S</h1>
+                    <p class="title-sub">Just A Rather Very Intelligent System</p>
+                </div>
             </div>
-        </div>
+
+            <div class="header-right">
+                <div class="hud-time" id="hudTime">--:--:--</div>
+                <div class="hud-date" id="hudDate">--- --. ----</div>
+            </div>
+        </header>
+
+        <!-- ── MAIN CONTENT ── -->
+        <main class="main-area">
+
+            <!-- Sidebar stats -->
+            <aside class="sidebar">
+                <div class="sidebar-block">
+                    <div class="sidebar-label">NEURAL LOAD</div>
+                    <div class="sidebar-bar"><div class="sidebar-fill" id="neuralFill" style="width:72%"></div></div>
+                    <div class="sidebar-val">72%</div>
+                </div>
+                <div class="sidebar-block">
+                    <div class="sidebar-label">MEMORY</div>
+                    <div class="sidebar-bar"><div class="sidebar-fill" id="memFill" style="width:48%"></div></div>
+                    <div class="sidebar-val">48%</div>
+                </div>
+                <div class="sidebar-block">
+                    <div class="sidebar-label">UPTIME</div>
+                    <div class="sidebar-val uptime" id="uptimeVal">00:00:00</div>
+                </div>
+                <div class="sidebar-separator"></div>
+                <div class="sidebar-block">
+                    <div class="sidebar-label">MESSAGES</div>
+                    <div class="sidebar-val" id="msgCount">0</div>
+                </div>
+                <div class="sidebar-block">
+                    <div class="sidebar-label">SESSION</div>
+                    <div class="sidebar-val session-id" id="sessionId">--</div>
+                </div>
+            </aside>
+
+            <!-- Chat panel -->
+            <section class="chat-panel">
+
+                <!-- Welcome overlay -->
+                <div class="welcome-overlay" id="welcomeOverlay">
+                    <div class="welcome-hex">⬡</div>
+                    <h2 class="welcome-title">SYSTEM READY</h2>
+                    <p class="welcome-sub">Initializing neural pathways…<br>JARVIS is online and awaiting your command.</p>
+                    <div class="welcome-features">
+                        <span class="feat-tag">💬 Chat</span>
+                        <span class="feat-tag">🖼️ Images</span>
+                        <span class="feat-tag">🎤 Voice</span>
+                        <span class="feat-tag">🤖 AI</span>
+                    </div>
+                </div>
+
+                <!-- Messages area -->
+                <div class="chat-messages" id="chatContainer"></div>
+
+                <!-- Typing indicator -->
+                <div class="typing-indicator" id="typingIndicator">
+                    <div class="bot-avatar small">J</div>
+                    <div class="typing-bubble">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <span class="typing-label">JARVIS is thinking…</span>
+                </div>
+
+            </section>
+
+            <!-- Right decorative panel -->
+            <aside class="sidebar sidebar-right">
+                <div class="radar-wrap">
+                    <canvas id="radarCanvas" width="100" height="100"></canvas>
+                    <div class="radar-label">ACTIVITY</div>
+                </div>
+                <div class="sidebar-separator"></div>
+                <div class="sidebar-block">
+                    <div class="sidebar-label">API</div>
+                    <div class="api-status" id="apiStatus">
+                        <span class="api-dot active"></span>
+                        <span>GEMINI</span>
+                    </div>
+                </div>
+                <div class="sidebar-block">
+                    <div class="sidebar-label">MODEL</div>
+                    <div class="sidebar-val model-name">GEMINI 2.0</div>
+                </div>
+                <div class="sidebar-block">
+                    <div class="sidebar-label">VISION</div>
+                    <div class="sidebar-val" id="visionStatus">READY</div>
+                </div>
+            </aside>
+
+        </main>
+
+        <!-- ── INPUT BAR ── -->
+        <footer class="input-bar">
+            <div class="input-glow-ring"></div>
+            <div class="input-inner">
+
+                <button class="action-btn" id="imageBtn" title="Upload Image" aria-label="Upload image">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span class="btn-ripple"></span>
+                </button>
+
+                <button class="action-btn" id="voiceBtn" title="Voice Input" aria-label="Voice input">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/>
+                        <line x1="8" y1="23" x2="16" y2="23"/>
+                    </svg>
+                    <span class="btn-ripple"></span>
+                </button>
+
+                <div class="input-field-wrap">
+                    <input type="text" id="messageInput"
+                           class="message-input"
+                           placeholder="Command JARVIS…"
+                           autocomplete="off"
+                           spellcheck="false">
+                    <div class="input-line"></div>
+                    <div class="input-cursor-bar"></div>
+                </div>
+
+                <button class="send-btn" id="sendBtn" title="Send" aria-label="Send message">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                    <span class="btn-ripple"></span>
+                </button>
+
+            </div>
+
+            <input type="file" class="file-input" id="fileInput" accept="image/*">
+        </footer>
+
     </div>
 
     <script src="script.js"></script>
 </body>
-</html> 
+</html>
