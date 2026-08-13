@@ -3,47 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>J.A.R.V.I.S – Intelligent AI Assistant</title>
-    <meta name="description" content="JARVIS – Just A Rather Very Intelligent System. Your advanced AI assistant powered by Gemini.">
+    <title>J.A.R.V.I.S – Futuristic Neural AI Mainframe</title>
+    <meta name="description" content="J.A.R.V.I.S – Just A Rather Very Intelligent System. Modern cybernetic HUD AI interface powered by Gemini.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Markdown Parser & Code Syntax Highlighting -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/tokyo-night-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- Animated particle canvas background -->
+    <!-- Animated Holographic Grid & Particle Canvas -->
     <canvas id="particleCanvas"></canvas>
 
-    <!-- Scanning line overlay -->
+    <!-- Scanline & Ambient Overlay -->
     <div class="scan-line"></div>
+    <div class="vignette-overlay"></div>
 
-    <!-- Corner decorations -->
-    <div class="corner corner-tl"></div>
-    <div class="corner corner-tr"></div>
-    <div class="corner corner-bl"></div>
-    <div class="corner corner-br"></div>
+    <!-- HUD Holographic Corners -->
+    <div class="corner corner-tl">
+        <svg viewBox="0 0 50 50"><path d="M2,50 L2,2 L50,2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="5" cy="5" r="2" fill="currentColor"/></svg>
+    </div>
+    <div class="corner corner-tr">
+        <svg viewBox="0 0 50 50"><path d="M2,50 L2,2 L50,2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="5" cy="5" r="2" fill="currentColor"/></svg>
+    </div>
+    <div class="corner corner-bl">
+        <svg viewBox="0 0 50 50"><path d="M2,50 L2,2 L50,2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="5" cy="5" r="2" fill="currentColor"/></svg>
+    </div>
+    <div class="corner corner-br">
+        <svg viewBox="0 0 50 50"><path d="M2,50 L2,2 L50,2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="5" cy="5" r="2" fill="currentColor"/></svg>
+    </div>
 
+    <!-- MAIN APP CONTAINER -->
     <div class="app-container">
 
-        <!-- ── HEADER ── -->
+        <!-- ── HEADER HUD ── -->
         <header class="header" id="header">
             <div class="header-left">
                 <div class="status-indicator" id="statusIndicator">
                     <span class="status-dot"></span>
-                    <span class="status-text" id="statusText">ONLINE</span>
+                    <span class="status-text" id="statusText">MAINFRAME ACTIVE</span>
                 </div>
+                <div class="protocol-badge">SECURE // PROTOCOL 10.4</div>
             </div>
 
             <div class="header-center">
-                <div class="logo-ring">
-                    <svg class="ring-svg" viewBox="0 0 120 120">
-                        <circle class="ring-bg" cx="60" cy="60" r="52"/>
-                        <circle class="ring-progress" cx="60" cy="60" r="52" id="ringProgress"/>
-                    </svg>
-                    <div class="logo-core">
-                        <span class="logo-icon">⬡</span>
+                <!-- Arc Reactor Visualizer -->
+                <div class="arc-reactor" id="arcReactor">
+                    <div class="arc-ring ring-outer"></div>
+                    <div class="arc-ring ring-middle"></div>
+                    <div class="arc-ring ring-inner"></div>
+                    <div class="arc-core">
+                        <span class="arc-symbol">⬡</span>
                     </div>
+                    <div class="arc-rays"></div>
                 </div>
                 <div class="logo-text">
                     <h1 class="title-main">J.A.R.V.I.S</h1>
@@ -52,130 +70,197 @@
             </div>
 
             <div class="header-right">
-                <div class="hud-time" id="hudTime">--:--:--</div>
-                <div class="hud-date" id="hudDate">--- --. ----</div>
+                <div class="header-tools">
+                    <button class="icon-tool-btn" id="soundToggleBtn" title="Toggle Futuristic SFX Audio" aria-label="Toggle Sound">
+                        <svg class="speaker-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                            <path class="sound-wave" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                        </svg>
+                    </button>
+                    <button class="icon-tool-btn" id="settingsBtn" title="HUD System Settings" aria-label="System Settings">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="hud-time-block">
+                    <div class="hud-time" id="hudTime">00:00:00</div>
+                    <div class="hud-date" id="hudDate">SYS OK</div>
+                </div>
             </div>
         </header>
 
-        <!-- ── MAIN CONTENT ── -->
+        <!-- ── MAIN CONTENT AREA ── -->
         <main class="main-area">
 
-            <!-- Sidebar stats -->
-            <aside class="sidebar">
-                <div class="sidebar-block">
-                    <div class="sidebar-label">NEURAL LOAD</div>
-                    <div class="sidebar-bar"><div class="sidebar-fill" id="neuralFill" style="width:72%"></div></div>
-                    <div class="sidebar-val">72%</div>
+            <!-- Left Telemetry Sidebar -->
+            <aside class="sidebar sidebar-left">
+                <div class="sidebar-header">
+                    <span class="sidebar-title">TELEMETRY</span>
+                    <span class="pulse-tag">LIVE</span>
                 </div>
+                
                 <div class="sidebar-block">
-                    <div class="sidebar-label">MEMORY</div>
-                    <div class="sidebar-bar"><div class="sidebar-fill" id="memFill" style="width:48%"></div></div>
-                    <div class="sidebar-val">48%</div>
+                    <div class="sidebar-label">NEURAL MATRIX LOAD</div>
+                    <div class="sidebar-bar"><div class="sidebar-fill" id="neuralFill" style="width: 78%;"></div></div>
+                    <div class="sidebar-val-wrap"><span class="sidebar-val" id="neuralVal">78%</span><span class="sub-unit">PFLOPS</span></div>
                 </div>
+
                 <div class="sidebar-block">
-                    <div class="sidebar-label">UPTIME</div>
+                    <div class="sidebar-label">SYNAPSE MEMORY</div>
+                    <div class="sidebar-bar"><div class="sidebar-fill mem-fill" id="memFill" style="width: 42%;"></div></div>
+                    <div class="sidebar-val-wrap"><span class="sidebar-val" id="memVal">42%</span><span class="sub-unit">128 GB</span></div>
+                </div>
+
+                <div class="sidebar-block">
+                    <div class="sidebar-label">MAINFRAME UPTIME</div>
                     <div class="sidebar-val uptime" id="uptimeVal">00:00:00</div>
                 </div>
+
                 <div class="sidebar-separator"></div>
+
                 <div class="sidebar-block">
-                    <div class="sidebar-label">MESSAGES</div>
+                    <div class="sidebar-label">LOGGED MESSAGES</div>
                     <div class="sidebar-val" id="msgCount">0</div>
                 </div>
+
                 <div class="sidebar-block">
-                    <div class="sidebar-label">SESSION</div>
-                    <div class="sidebar-val session-id" id="sessionId">--</div>
+                    <div class="sidebar-label">CORE SESSION</div>
+                    <div class="sidebar-val session-id" id="sessionId">JARVIS-8X</div>
                 </div>
             </aside>
 
-            <!-- Chat panel -->
+            <!-- Center Chat Panel -->
             <section class="chat-panel">
 
-                <!-- Welcome overlay -->
+                <!-- Welcome Screen Overlay -->
                 <div class="welcome-overlay" id="welcomeOverlay">
-                    <div class="welcome-hex">⬡</div>
-                    <h2 class="welcome-title">SYSTEM READY</h2>
-                    <p class="welcome-sub">Initializing neural pathways…<br>JARVIS is online and awaiting your command.</p>
-                    <div class="welcome-features">
-                        <span class="feat-tag">💬 Chat</span>
-                        <span class="feat-tag">🖼️ Images</span>
-                        <span class="feat-tag">🎤 Voice</span>
-                        <span class="feat-tag">🤖 AI</span>
+                    <div class="welcome-reactor">
+                        <div class="wel-core"></div>
+                        <div class="wel-ring"></div>
+                    </div>
+                    <h2 class="welcome-title">STARK MAINFRAME INITIALIZED</h2>
+                    <p class="welcome-sub">Welcome back, Sir. All neural arrays are operating at optimal parameters.<br>How may I assist your query today?</p>
+
+                    <!-- Futuristic Action Prompt Chips -->
+                    <div class="welcome-chips">
+                        <button class="chip-btn" data-prompt="Explain Git and GitHub in simple terms with key commands.">
+                            <span class="chip-icon">⚡</span> Git vs GitHub
+                        </button>
+                        <button class="chip-btn" data-prompt="Write a Python script for real-time data processing with modern clean code.">
+                            <span class="chip-icon">💻</span> Python Blueprint
+                        </button>
+                        <button class="chip-btn" data-prompt="Explain Quantum Computing fundamentals and how it differs from classical computing.">
+                            <span class="chip-icon">⚛️</span> Quantum Computing
+                        </button>
+                        <button class="chip-btn" data-prompt="Give me a high-level system architecture overview for an AI assistant application.">
+                            <span class="chip-icon">🛡️</span> AI System Design
+                        </button>
                     </div>
                 </div>
 
-                <!-- Messages area -->
+                <!-- Chat Messages Stream -->
                 <div class="chat-messages" id="chatContainer"></div>
 
-                <!-- Typing indicator -->
+                <!-- Typing / Processing Indicator -->
                 <div class="typing-indicator" id="typingIndicator">
                     <div class="bot-avatar small">J</div>
                     <div class="typing-bubble">
-                        <span></span><span></span><span></span>
+                        <span class="pulse-dot"></span>
+                        <span class="pulse-dot"></span>
+                        <span class="pulse-dot"></span>
                     </div>
-                    <span class="typing-label">JARVIS is thinking…</span>
+                    <span class="typing-label">J.A.R.V.I.S IS COMPUTING RESPONSE...</span>
+                </div>
+
+                <!-- Floating Voice Audio Visualizer Canvas -->
+                <div class="audio-vis-bar" id="audioVisBar">
+                    <canvas id="audioVisualizerCanvas" width="400" height="24"></canvas>
                 </div>
 
             </section>
 
-            <!-- Right decorative panel -->
+            <!-- Right Telemetry Sidebar -->
             <aside class="sidebar sidebar-right">
-                <div class="radar-wrap">
-                    <canvas id="radarCanvas" width="100" height="100"></canvas>
-                    <div class="radar-label">ACTIVITY</div>
+                <div class="sidebar-header">
+                    <span class="sidebar-title">DIAGNOSTICS</span>
                 </div>
+
+                <div class="radar-wrap">
+                    <canvas id="radarCanvas" width="110" height="110"></canvas>
+                    <div class="radar-label">ACTIVE RADAR SWEEP</div>
+                </div>
+
                 <div class="sidebar-separator"></div>
+
                 <div class="sidebar-block">
-                    <div class="sidebar-label">API</div>
+                    <div class="sidebar-label">PRIMARY AI API</div>
                     <div class="api-status" id="apiStatus">
                         <span class="api-dot active"></span>
-                        <span>GEMINI</span>
+                        <span id="apiStatusText">GEMINI API CONNECTED</span>
                     </div>
                 </div>
+
                 <div class="sidebar-block">
-                    <div class="sidebar-label">MODEL</div>
-                    <div class="sidebar-val model-name">GEMINI 2.0</div>
+                    <div class="sidebar-label">ENGINE MODEL</div>
+                    <div class="sidebar-val model-name" id="modelDisplayVal">GEMINI 2.5 FLASH</div>
                 </div>
+
                 <div class="sidebar-block">
-                    <div class="sidebar-label">VISION</div>
-                    <div class="sidebar-val" id="visionStatus">READY</div>
+                    <div class="sidebar-label">AUDIO SPEECH SYNTH</div>
+                    <div class="sidebar-val" id="synthStatus">READY (WEB AUDIO)</div>
                 </div>
             </aside>
 
         </main>
 
-        <!-- ── INPUT BAR ── -->
-        <footer class="input-bar">
+        <!-- ── INPUT FOOTER BAR ── -->
+        <footer class="input-bar" id="inputBar">
             <div class="input-glow-ring"></div>
             <div class="input-inner">
 
-                <button class="action-btn" id="imageBtn" title="Upload Image" aria-label="Upload image">
+                <!-- Image Upload Button -->
+                <button class="action-btn" id="imageBtn" title="Analyze Image Document" aria-label="Upload image">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-                        <polyline points="21 15 16 10 5 21"/>
+                        <rect x="3" y="3" width="18" height="18" rx="3"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <path d="M21 15l-5-5L5 21"/>
                     </svg>
                     <span class="btn-ripple"></span>
                 </button>
 
-                <button class="action-btn" id="voiceBtn" title="Voice Input" aria-label="Voice input">
+                <!-- Voice Input Mic Button -->
+                <button class="action-btn" id="voiceBtn" title="Voice Input Command" aria-label="Voice input">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/>
-                        <line x1="8" y1="23" x2="16" y2="23"/>
+                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                        <line x1="12" y1="19" x2="12" y2="22"/>
+                        <line x1="8" y1="22" x2="16" y2="22"/>
                     </svg>
                     <span class="btn-ripple"></span>
                 </button>
 
+                <!-- Text Input -->
                 <div class="input-field-wrap">
                     <input type="text" id="messageInput"
                            class="message-input"
-                           placeholder="Command JARVIS…"
+                           placeholder="Enter command or query for J.A.R.V.I.S..."
                            autocomplete="off"
                            spellcheck="false">
                     <div class="input-line"></div>
-                    <div class="input-cursor-bar"></div>
                 </div>
 
-                <button class="send-btn" id="sendBtn" title="Send" aria-label="Send message">
+                <!-- Clear Chat Button -->
+                <button class="action-btn clear-btn" id="clearBtn" title="Clear Conversation Logs" aria-label="Clear chat">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 6h18"/>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                    <span class="btn-ripple"></span>
+                </button>
+
+                <!-- Send Button -->
+                <button class="send-btn" id="sendBtn" title="Execute Command" aria-label="Send message">
                     <svg viewBox="0 0 24 24" fill="currentColor">
                         <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
                     </svg>
@@ -187,6 +272,58 @@
             <input type="file" class="file-input" id="fileInput" accept="image/*">
         </footer>
 
+    </div>
+
+    <!-- ── HUD SETTINGS MODAL ── -->
+    <div class="modal-backdrop" id="settingsModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span class="modal-icon">⚙️</span>
+                    <span>J.A.R.V.I.S MAINFRAME CONFIGURATION</span>
+                </div>
+                <button class="modal-close" id="closeSettingsModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="config-group">
+                    <label class="config-label" for="apiKeyInput">CLIENT GEMINI API KEY (OPTIONAL FOR DIRECT BROWSER CONNECTION)</label>
+                    <input type="password" id="apiKeyInput" class="config-input" placeholder="AIzaSy... (Leave blank to use Flask backend key)">
+                    <span class="config-help">If Flask server is offline, JARVIS can connect directly using your API key stored locally in browser storage.</span>
+                </div>
+
+                <div class="config-group">
+                    <label class="config-label" for="modelSelect">GEMINI MODEL ENGINE</label>
+                    <select id="modelSelect" class="config-select">
+                        <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash (Recommended - Ultra Fast)</option>
+                        <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+                        <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+                    </select>
+                </div>
+
+                <div class="config-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="sfxToggle" checked>
+                        <span>Enable Cyber Web Audio SFX (Futuristic Beeps & Pulses)</span>
+                    </label>
+                </div>
+
+                <div class="config-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="voiceSynthToggle" checked>
+                        <span>Enable Text-To-Speech Voice Synthesis (JARVIS Speaks Responses)</span>
+                    </label>
+                </div>
+
+                <div class="config-info-box">
+                    <div class="info-line"><span>SERVER ENDPOINT:</span> <code>/api/chat</code></div>
+                    <div class="info-line"><span>STATUS:</span> <span id="modalServerStatus" class="status-highlight">DIAGNOSTIC ACTIVE</span></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" id="resetSettingsBtn">RESET DEFAULT</button>
+                <button class="modal-btn primary" id="saveSettingsBtn">SAVE & APPLY PROTOCOL</button>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
